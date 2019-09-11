@@ -34,13 +34,17 @@ userSchema.pre('save', function(next) {
 })
 
 // Write helper function to compare the password hashes
+userSchema.methods.isAuthenticated = function(typedPassword) {
+	return bcrypt.compareSync(typedPassword, this.password);
+}
+
+
+// Make sure the password doesn't get sent with the rest of the data
 userSchema.set('toJSON', {
 	transform: (doc, user) => {
 		delete user.password;
 		return user
 	}
 })
-
-// Make sure the password doesn't get sent with the rest of the data
 
 module.exports = mongoose.model('User', userSchema);
