@@ -1,15 +1,15 @@
 // IMPORTS
 const cors = require('cors');
 const express = require('express');
-const morgan = require('morgan');
+let rowdyLogger = require('rowdy-logger');
 
 
 // Instantiate app
 const app = express();
+let rowdyResults = rowdyLogger.begin(app);
 
 // MIDDLEWARE
 app.use(cors());
-app.use(morgan('[development]'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ limit: '10mb' }));
 
@@ -23,4 +23,6 @@ app.get('*', (req, res) => {
 })
 
 
-app.listen(process.env.PORT || 8000);
+app.listen(process.env.PORT || 8000, () => {
+	rowdyResults.print();
+});
