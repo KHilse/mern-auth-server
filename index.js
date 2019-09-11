@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ limit: '10mb' }));
 
 // CONTROLLERS
+app.use('/auth', require('./controllers/auth'));
 
 
 // GLOBAL ROUTES
