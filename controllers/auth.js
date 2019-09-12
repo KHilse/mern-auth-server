@@ -62,7 +62,16 @@ router.post('/signup', (req, res) => {
 
 // NB: User must be logged in to get to this route
 router.get('/current/user', (req,res) => {
-	res.send('STUB - auth/current/user GET');
+	// The user is logged in so req.user should have data
+	if (!req.user || !req.user._id) {
+		return res.status(417).send({ message: 'Expectation Failed: Check configuration' });
+	}
+
+	// Return user data from the time the token was issued
+	// Therefore, if you update the user, those changes will
+	// not be reflected here. To avoid this, reissue a token
+	// when you update user data.
+	res.send({ user: req.user });
 })
 
 
